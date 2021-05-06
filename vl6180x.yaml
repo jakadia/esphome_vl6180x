@@ -1,0 +1,48 @@
+esphome:
+  name: vl6180x
+  platform: ESP32
+  board: nodemcu-32s
+  includes:
+    - /config/esphome/custom_sensors/vl6180x.h
+  libraries:
+   - "VL6180X@^1.3.0"
+
+wifi:
+  ssid: !secret ssid
+  password: !secret ssid_pass
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Vl6180X Fallback Hotspot"
+    password: !secret pass
+
+captive_portal:
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: !secret pass
+
+ota:
+  password: !secret pass
+  
+web_server:
+  port: 80
+
+sensor:
+- platform: custom
+  lambda: |-
+    auto my_sensor = new MyCustomSensor();
+    App.register_component(my_sensor);
+    return {my_sensor->dist_sensor, my_sensor->ambient_sensor};
+
+  sensors:
+  - name: "Distance sensor"
+    unit_of_measurement: mm
+    accuracy_decimals: 0
+  - name: "Ambient sensor"
+    unit_of_measurement: lux
+    
+
