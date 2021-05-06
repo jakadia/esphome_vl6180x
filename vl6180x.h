@@ -11,7 +11,7 @@ public:
 
 Sensor *dist_sensor = new Sensor();
 Sensor *ambient_sensor = new Sensor();
-MyCustomSensor() : PollingComponent(500) {}
+MyCustomSensor() : PollingComponent(1000) {}
 float get_setup_priority() const override { return esphome::setup_priority::BUS; }
 
 void setup() override {
